@@ -1,0 +1,47 @@
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: #333;
+  text-align: center;
+}
+.page {
+  padding: 2em 1em;
+}
+.cover-img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+}
+.gallery {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.gallery img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+input, button {
+  padding: 10px;
+  margin: 0.5em;
+  width: 80%;
+  max-width: 300px;
+}
+button {
+  background: #f97b61;
+  color: white;
+  border: none;
+  border-radius: 30px;
+}
+.contact {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
