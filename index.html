@@ -10,7 +10,21 @@
 <body>
 
   <!-- Music play button -->
-<button onclick="document.getElementById('bgm').muted = false;">🎵 음악 켜기</button>
+<audio id="bgm" autoplay loop muted>
+  <source src="audio/bgm.mp3" type="audio/mpeg">
+</audio>
+
+<button onclick="playBGM()">🎵 음악 켜기</button>
+
+<script>
+  function playBGM() {
+    const audio = document.getElementById('bgm');
+    audio.muted = false;
+    audio.play().catch(err => {
+      alert('브라우저에서 음악 재생이 차단되었습니다.');
+    });
+  }
+</script>
 
   <!-- 1. Cover -->
   <section class="page" id="cover">
@@ -96,12 +110,6 @@
     </form>
     <ul id="messages"></ul>
   </section>
-
-    <!-- Music -->
-<audio id="bgm" autoplay loop muted>
-  <source src="audio/bgm.mp3" type="audio/mpeg">
-</audio>
-
   
   <script src="script.js"></script>
 </body>
