@@ -36,15 +36,32 @@
   </div>
   </section>
 
-  <!-- 3. Gallery -->
-  <section class="page" id="gallery">
-    <h2>Gallery</h2>
-    <div class="gallery">
-      <img src="images/photo1.jpg">
-      <img src="images/photo2.jpg">
-      <img src="images/photo3.jpg">
+  <!-- 3. Gallery (Swiper 적용) -->
+<section class="page" id="gallery">
+  <h2>Gallery</h2>
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="images/photo1.jpg" /></div>
+      <div class="swiper-slide"><img src="images/photo2.jpg" /></div>
+      <div class="swiper-slide"><img src="images/photo3.jpg" /></div>
+      <div class="swiper-slide"><img src="images/photo4.jpg" /></div>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- SwiperJS CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  new Swiper('.swiper', {
+    loop: true,
+    slidesPerView: 1,
+    spaceBetween: 0,
+    autoplay: { delay: 3000 },
+  });
+</script>
+
 
   <!-- 4. Movie -->
   <section class="page" id="movie">
