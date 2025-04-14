@@ -1,12 +1,13 @@
 
 body {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'GangwonEduAll', 'Noto Sans KR', sans-serif;
   margin: 0;
   padding: 0;
   background: #fff;
   color: #333;
   text-align: center;
 }
+
 .page {
   padding: 2em 1em;
 }
