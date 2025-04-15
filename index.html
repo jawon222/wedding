@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>이종경 ♥ 이자원 모바일 청첩장</title>
+  <title>종경 ♥ 자원 모바일 청첩장</title>
   <link rel="stylesheet" href="style.css">
   <!-- 웹폰트 불러오기 -->
   <link href="https://webfontworld.github.io/ChosunNm/ChosunNm.css" rel="stylesheet">
@@ -17,15 +17,9 @@
 
 <!-- 🎀 헤더 영역 -->
 <header class="wedding-header">
-  <div class="header-left"></div>
-  <div class="header-center">
-    <h1 id="header-title">종경 ♥ 자원의 결혼식에 초대합니다</h1>
-  </div>
-  <div class="header-right">
-    <button id="toggleBGM" onclick="toggleBGM()">
-      <span id="bgmIcon">🔇</span>
-    </button>
-  </div>
+  <button id="toggleBGM" onclick="toggleBGM()">
+    <span id="bgmIcon">🔈</span>
+  </button>
 </header>
 
 <!-- ✨ 자바스크립트: 음악 제어 함수 -->
@@ -41,7 +35,7 @@
         alert("브라우저에서 음악 자동재생이 차단되었습니다.");
       });
     }
-    icon.textContent = isMuted ? "🔇" : "🔊";
+    icon.textContent = isMuted ? "🔈" : "🔊";
   }
 </script>
 
@@ -50,22 +44,25 @@
   <img src="images/cover.png" alt="커버 이미지" class="cover-img only-cover">
 </section>
 
+<!-- 커버 텍스트를 별도 섹션으로 분리 -->
+<section class="page fade-in-section" id="cover-text">
+  <div class="couple-names">
+    <span class="groom-name">이종경</span>
+    <span class="name-divider">·</span>
+    <span class="bride-name">이자원</span>
+  </div>
+  <div class="wedding-info">
+    <p class="wedding-date">2024. 5. 4 토요일 오후 2:00</p>
+    <p class="wedding-place">웨스턴라이프호텔 2층 루미에르홀</p>
+  </div>
+</section>
+
 <!-- (이하 나머지 섹션은 그대로 유지) -->
 <section class="page fade-in-section" id="greeting">
-  <h2>SAVE THE DATE</h2><br>
+  <h2>INVITATION</h2><br>
   <p>좋은 걸 보면 서로가 생각나는 두 사람이 만나<br>
   평생 서로의 웃음 버튼이 되어주기로 했습니다.<br>
   그 시작을 지켜봐 주신다면 감사하겠습니다.<br><br><br></p>
-  <div class="contact-grid">
-    <div class="contact-box groom">
-      <h3>신랑</h3>
-      <p class="main">이선기 · 김미 의 <strong>장남 종경</strong></p>
-    </div>
-    <div class="contact-box bride">
-      <h3>신부</h3>
-      <p class="main">이도중 · 김성화 의 <strong>차녀 자원</strong></p>
-    </div>
-  </div>
 </section>
 
 <!-- 이후 기존 코드 그대로 -->
@@ -78,6 +75,11 @@
       <div class="swiper-slide"><img src="images/photo3.png" /></div>
       <div class="swiper-slide"><img src="images/photo4.png" /></div>
     </div>
+    <!-- 네비게이션 버튼 추가 -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <!-- 페이지네이션 추가 -->
+    <div class="swiper-pagination"></div>
   </div>
 </section>
 
@@ -88,7 +90,26 @@
     loop: true,
     slidesPerView: 1,
     spaceBetween: 0,
-    autoplay: { delay: 3000 },
+    autoplay: { 
+      delay: 3000,
+      disableOnInteraction: false  // 사용자 상호작용 후에도 자동재생 유지
+    },
+    // 네비게이션 버튼 활성화
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    // 페이지네이션 활성화
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    // 드래그 기능 개선
+    grabCursor: true,  // 드래그 가능할 때 커서 변경
+    effect: 'slide',   // 슬라이드 효과
+    speed: 600,        // 전환 속도
+    resistance: true,  // 드래그 저항 활성화
+    resistanceRatio: 0.85,  // 저항 비율
   });
 </script>
 
@@ -104,23 +125,31 @@
 </section>
 
 <section class="page fade-in-section" id="account">
-  <h2>축하의 마음을 전하세요.</h2>
-  <p>축하의 마음을 담아 축의금을 전달해 보세요.</p>
+  <h2>신랑 & 신부에게 마음 전하기</h2>
+  <p class="account-subtitle">축복의 의미로 축의금을 전달해보세요.</p>
+  
   <div class="account-container">
-    <details class="account-card">
-      <summary>💗 신랑 이종경</summary>
-      <div class="account-details">
-        <p>농협 531012-56-215786<br>예금주: 이종경</p>
-        <button onclick="copyToClipboard('531012-56-215786')">복사</button>
+    <div class="account-item">
+      <button class="account-button" onclick="toggleAccount('groom-account')">
+        신랑 측 계좌번호
+      </button>
+      <div id="groom-account" class="account-info" style="display: none;">
+        <p>농협 531012-56-215786</p>
+        <p>예금주: 이종경</p>
+        <button class="copy-button" onclick="copyToClipboard('531012-56-215786')">복사하기</button>
       </div>
-    </details>
-    <details class="account-card">
-      <summary>💗 신부 이자원</summary>
-      <div class="account-details">
-        <p>신한은행 110-336-161568<br>예금주: 이자원</p>
-        <button onclick="copyToClipboard('110-336-161568')">복사</button>
+    </div>
+
+    <div class="account-item">
+      <button class="account-button" onclick="toggleAccount('bride-account')">
+        신부 측 계좌번호
+      </button>
+      <div id="bride-account" class="account-info" style="display: none;">
+        <p>신한은행 110-336-161568</p>
+        <p>예금주: 이자원</p>
+        <button class="copy-button" onclick="copyToClipboard('110-336-161568')">복사하기</button>
       </div>
-    </details>
+    </div>
   </div>
 </section>
 
@@ -133,17 +162,31 @@
 </script>
 
 <section class="page fade-in-section" id="guestbook">
-  <h2>Guest Book</h2>
-  <form onsubmit="return saveMessage(event)">
-    <input type="text" id="name" placeholder="이름" required><br>
-    <input type="text" id="message" placeholder="축하메시지" required><br>
-    <label style="display: block; margin: 10px 0;">
-      <input type="checkbox" id="private">
-      신랑·신부에게만 보이기
-    </label>
-    <button type="submit">축하메시지 남기기</button>
-  </form>
-  <ul id="messages"></ul>
+  <h2>GUEST BOOK</h2>
+  
+  <div class="guestbook-form">
+    <input type="text" id="name" placeholder="이름" required>
+    <input type="password" id="password" placeholder="비밀번호" required>
+    <textarea id="message" placeholder="축하메시지" required></textarea>
+    <button onclick="submitMessage()" class="submit-button">축하메시지 남기기</button>
+  </div>
+
+  <div id="messages" class="messages-container">
+    <!-- 메시지들이 여기에 동적으로 추가됩니다 -->
+  </div>
+
+  <!-- 수정 모달 -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <h3>메시지 수정</h3>
+      <textarea id="editMessage"></textarea>
+      <input type="password" id="editPassword" placeholder="비밀번호">
+      <div class="modal-buttons">
+        <button onclick="updateMessage()">수정</button>
+        <button onclick="closeEditModal()">취소</button>
+      </div>
+    </div>
+  </div>
 </section>
 
 
@@ -172,6 +215,25 @@
   });
 </script>
 
+<!-- 하단 버튼 영역 (floating-buttons를 bottom-buttons로 변경) -->
+<div class="bottom-buttons">
+  <button class="like-button">
+    <span class="heart-icon">❤️</span>
+    <span class="like-count">0</span>
+  </button>
+  <button class="share-button">
+    <span>공유</span>
+  </button>
+  <button class="top-button">
+    <span>위로</span>
+  </button>
+</div>
+
+<!-- Canvas for confetti -->
+<canvas id="confetti-canvas"></canvas>
+
+<!-- 필요한 스크립트 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
 <script src="script.js"></script>
 </body>
