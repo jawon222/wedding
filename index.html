@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="style.css">
   <!-- 웹폰트 불러오기 -->
   <link href="https://webfontworld.github.io/ChosunNm/ChosunNm.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 
@@ -47,23 +49,35 @@
 <!-- 커버 텍스트를 별도 섹션으로 분리 -->
 <section class="page fade-in-section" id="cover-text">
   <div class="couple-names">
-    <span class="groom-name">이종경</span>
-    <span class="name-divider">·</span>
-    <span class="bride-name">이자원</span>
-  </div>
+    <span class="groom-name"><strong>종경</strong></span>
+    <span class="name-divider">그리고</span>
+    <span class="bride-name"><strong>자원</strong></span>
+  </div><br><br>
   <div class="wedding-info">
-    <p class="wedding-date">2024. 5. 4 토요일 오후 2:00</p>
+    <p class="wedding-date">2025. 8. 23 토요일 오후 12:10</p>
     <p class="wedding-place">웨스턴라이프호텔 2층 루미에르홀</p>
   </div>
 </section>
 
 <!-- (이하 나머지 섹션은 그대로 유지) -->
 <section class="page fade-in-section" id="greeting">
-  <h2>INVITATION</h2><br>
+  <div class="invitation-image">
+    <img src="images/flower-divider.png" alt="장식 이미지">
+  </div>
+  <h2>Invitation</h2>
   <p>좋은 걸 보면 서로가 생각나는 두 사람이 만나<br>
   평생 서로의 웃음 버튼이 되어주기로 했습니다.<br>
-  그 시작을 지켜봐 주신다면 감사하겠습니다.<br><br><br></p>
-</section>
+  그 시작을 지켜봐 주신다면 감사하겠습니다.</p>
+
+  <div class="parents-info">
+    <div class="parent-group">
+      <p class="parent-title"><strong>이선기 · 김미</strong> 의 장남 <strong>종경</strong></p>
+    </div>
+    <div class="parent-group">
+      <p class="parent-title"><strong>이도중 · 김성화</strong> 의 차녀 <strong>자원</strong></p>
+    </div>
+  </div>
+</section><br><br><br>
 
 <!-- 이후 기존 코드 그대로 -->
 <section class="page fade-in-section" id="gallery">
@@ -111,84 +125,97 @@
     resistance: true,  // 드래그 저항 활성화
     resistanceRatio: 0.85,  // 저항 비율
   });
-</script>
+</script><br><br><br>
 
 <section class="page fade-in-section" id="movie">
-  <h2>Movie</h2>
+  <h2>Movie</h2><br>
   <iframe width="100%" height="215" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-</section>
+</section><br><br><br>
 
 <section class="page fade-in-section" id="location">
   <h2>Location</h2>
   <p>웨스턴라이프호텔 2층 루미에르홀<br>전북특별자치도 익산시 동서로 380</p>
-  <iframe src="https://maps.google.com/maps?q=전북특별자치도 익산시 동서로 380&output=embed" width="100%" height="300"></iframe>
-</section>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3242.727546008154!2d126.97343937677655!3d35.96450197246047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35702c01bb7d8f91%3A0x48e31e1adb29d358!2z7JuU7Iqk7YS17IKs7J207ZS87ZWtIO2VtOyCsA!5e0!3m2!1sko!2skr!4v1709799161599!5m2!1sko!2skr" 
+    width="100%" 
+    height="300" 
+    style="border:0;" 
+    allowfullscreen="" 
+    loading="lazy" 
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+
+  <div class="traffic-info">
+    <div class="traffic-section">
+      <h3><i class="fas fa-subway"></i> 기차 이용시</h3>
+      <p>익산역 하차 <br>
+       [버스]<br>
+      - 약 20분: 대한통운 정류장 ( 도보2분 ) - 61번/65번 승차 ( 17분 ) - 신일아파트 정류장 하차 - 웨스턴라이프호텔 ( 도보1분 )<br>
+      - 약 21분: 중앙시장 정류장 ( 도보3분 ) - 1번 / 107번 승차 ( 17분 ) - 신일아파트 정류장 하차 - 웨스턴라이프호텔 ( 도보1분 ) <br>
+      [택시] <br>
+      - 약 15분 / 총 4.08km / 택시비 약 5,600원 </p>
+    </div>
+
+    <div class="traffic-section">
+      <h3><i class="fas fa-bus"></i> 고속버스 이용시</h3>
+      <p>익산 고속버스터미널 하차 <br>
+        [버스]<br>
+       - 약 26분: 익산고속버스터미널 하차 - 익산터미널 정류장 ( 도보2분 ) - 1번/2번 승차 ( 23분 ) - 신일아파트 정류장 하차 - 웨스턴라이프호텔 ( 도보1분 ) <br>
+       - 약 26분: 익산고속버스터미널 하차 - 평화사거리 정류장 ( 도보4분 ) - 65번/61번/60번 승차 ( 21분 ) - 신일아파트 정류장 하차 - 웨스턴라이프호텔 ( 도보1분 ) <br>
+       [택시] <br>
+       - 약 17분 / 총4.87km / 택시비 약 6,400원 </p>
+     </div>
+</section><br><br>
 
 <section class="page fade-in-section" id="account">
-  <h2>신랑 & 신부에게 마음 전하기</h2>
-  <p class="account-subtitle">축복의 의미로 축의금을 전달해보세요.</p>
+  <h2>마음 전하실 곳</h2><br>
   
   <div class="account-container">
     <div class="account-item">
-      <button class="account-button" onclick="toggleAccount('groom-account')">
-        신랑 측 계좌번호
+      <button class="accordion-btn">
+        <span>신랑 측 계좌번호</span>
+        <i class="fas fa-chevron-down"></i>
       </button>
-      <div id="groom-account" class="account-info" style="display: none;">
-        <p>농협 531012-56-215786</p>
-        <p>예금주: 이종경</p>
-        <button class="copy-button" onclick="copyToClipboard('531012-56-215786')">복사하기</button>
+      <div class="accordion-content">
+        <div class="account-info">
+          <div class="account-row">
+            <span class="account-value">이종경</span>
+          </div>
+          <div class="account-row">
+            <span class="account-value">농협 531012-56-215786</span>
+            <button class="copy-btn" data-account="53101256215786">
+              <i class="far fa-copy"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="account-item">
-      <button class="account-button" onclick="toggleAccount('bride-account')">
-        신부 측 계좌번호
+      <button class="accordion-btn">
+        <span>신부 측 계좌번호</span>
+        <i class="fas fa-chevron-down"></i>
       </button>
-      <div id="bride-account" class="account-info" style="display: none;">
-        <p>신한은행 110-336-161568</p>
-        <p>예금주: 이자원</p>
-        <button class="copy-button" onclick="copyToClipboard('110-336-161568')">복사하기</button>
+      <div class="accordion-content">
+        <div class="account-info">
+          <div class="account-row">
+            <span class="account-value">이자원</span>
+          </div>
+          <div class="account-row">
+            <span class="account-value">신한은행 110-336-161568</span>
+            <button class="copy-btn" data-account="110336161568">
+              <i class="far fa-copy"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</section>
 
-<script>
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      alert("계좌번호가 복사되었습니다.");
-    });
-  }
-</script>
-
-<section class="page fade-in-section" id="guestbook">
-  <h2>GUEST BOOK</h2>
-  
-  <div class="guestbook-form">
-    <input type="text" id="name" placeholder="이름" required>
-    <input type="password" id="password" placeholder="비밀번호" required>
-    <textarea id="message" placeholder="축하메시지" required></textarea>
-    <button onclick="submitMessage()" class="submit-button">축하메시지 남기기</button>
-  </div>
-
-  <div id="messages" class="messages-container">
-    <!-- 메시지들이 여기에 동적으로 추가됩니다 -->
-  </div>
-
-  <!-- 수정 모달 -->
-  <div id="editModal" class="modal">
-    <div class="modal-content">
-      <h3>메시지 수정</h3>
-      <textarea id="editMessage"></textarea>
-      <input type="password" id="editPassword" placeholder="비밀번호">
-      <div class="modal-buttons">
-        <button onclick="updateMessage()">수정</button>
-        <button onclick="closeEditModal()">취소</button>
-      </div>
-    </div>
+  <!-- 토스트 메시지 -->
+  <div id="toast-message" class="toast-message">
+    계좌번호가 복사되었습니다
   </div>
 </section>
-
 
 <script>
   // 커버 이미지 페이드인
@@ -212,6 +239,41 @@
 
   document.querySelectorAll('.fade-in-section').forEach(section => {
     observer.observe(section);
+  });
+
+  // 아코디언 기능
+  document.querySelectorAll('.accordion-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const content = button.nextElementSibling;
+      button.classList.toggle('active');
+      
+      if (button.classList.contains('active')) {
+        content.style.maxHeight = content.scrollHeight + "px";
+      } else {
+        content.style.maxHeight = 0;
+      }
+    });
+  });
+
+  // 계좌번호 복사 기능
+  document.querySelectorAll('.copy-btn').forEach(button => {
+    button.addEventListener('click', async () => {
+      const accountNumber = button.getAttribute('data-account');
+      try {
+        await navigator.clipboard.writeText(accountNumber);
+        
+        // 토스트 메시지 표시
+        const toast = document.getElementById('toast-message');
+        toast.classList.add('show');
+        
+        // 3초 후 토스트 메시지 숨김
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      } catch (err) {
+        alert('계좌번호 복사에 실패했습니다.');
+      }
+    });
   });
 </script>
 

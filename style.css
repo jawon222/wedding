@@ -120,7 +120,7 @@ button {
 /* 네비게이션 버튼 커스텀 스타일 */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #EC746F;
+  color: #EC746F !important;
   background-color: transparent;
   padding: 20px;
   width: 30px;
@@ -134,12 +134,12 @@ button {
 
 /* 페이지네이션 커스텀 스타일 */
 .swiper-pagination-bullet {
-  background: #EC746F;
+  background: #EC746F !important;
   opacity: 0.7;
 }
 
 .swiper-pagination-bullet-active {
-  background: #EC746F;
+  background: #EC746F !important;
   opacity: 1;
 }
 
@@ -201,55 +201,159 @@ audio {
    계좌번호 카드 컨테이너 스타일
    ============================= */
 .account-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  max-width: 400px;
-  margin: 2rem auto;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.account-card {
-  background: #fff0f4;
+.account-item {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.accordion-btn {
+  width: 90%;
+  margin: 0 auto;
+  padding: 15px 20px;
+  background: white;
+  border: 1px solid #ddd;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  border: none;
-}
-
-.account-card summary {
-  font-weight: bold;
-  font-size: 1.1rem;
-  color: #d1498b;
-  cursor: pointer;
-  list-style: none;
-}
-
-.account-card[open] summary {
-  margin-bottom: 0.8rem;
-}
-
-.account-details {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-/* 계좌정보 텍스트 영역 */
-.account-details p {
-  flex: 0.9;  /* 90% 차지 */
-  margin: 0;
+.accordion-btn span {
+  font-size: 1rem;
+  color: #333;
+}
+
+.accordion-btn i {
+  color: #EC746F;
+  transition: transform 0.3s ease;
+}
+
+.accordion-btn.active {
+  border-color: #EC746F;
+}
+
+.accordion-btn.active i {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.account-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  width: 100%;
+  padding-left: 20px;
+  box-sizing: border-box;
+  position: relative;
+  height: auto;
+}
+
+.account-row:last-child {
+  margin-bottom: 0;
+}
+
+.account-label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-right: 8px;
+}
+
+.account-value {
+  font-size: 0.85rem;
+  color: #333;
   text-align: left;
+  margin-right: auto;
+  white-space: nowrap;
 }
 
-/* 복사 버튼 스타일 수정 */
-.account-details button {
-  flex: 0.1;  /* 10% 차지 */
-  min-width: fit-content;  /* 텍스트가 잘리지 않도록 최소 너비 보장 */
-  padding: 8px 12px;
-  margin: 0;
-  white-space: nowrap;  /* 버튼 텍스트 줄바꿈 방지 */
+.copy-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: #EC746F;
+  transition: transform 0.2s ease;
+  position: static;
+  transform: none;
+  font-size: 0.9rem;
+}
+
+.copy-btn:hover {
+  transform: scale(1.1);
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 70%;
+  margin: 0 auto;
+  padding: 0px 0;
+  background: #fdf9fb;
+  border-radius: 25px;
+  box-sizing: border-box;
+}
+
+/* 토스트 메시지 스타일 */
+.toast-message {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  transition: bottom 0.3s ease;
+  z-index: 1000;
+}
+
+.toast-message.show {
+  bottom: 20px;
+}
+
+/* 모바일 대응 */
+@media screen and (max-width: 768px) {
+  .account-container {
+    padding: 0 15px;
+  }
+  
+  .accordion-btn,
+  .account-info {
+    width: 90%;
+  }
+  
+  .accordion-btn {
+    padding: 12px 15px;
+  }
+  
+  .account-info {
+    padding: 15px;
+  }
+  
+  .account-row {
+    padding-left: 15px;
+  }
+  
+  .account-value {
+    padding-right: 10px;
+  }
 }
 
 /* 페이드인 애니메이션 수정 */
@@ -282,7 +386,7 @@ audio {
 }
 
 #greeting {
-  background-color: #FFFAE4;
+  background-color: #ffffff;
   padding: 60px 20px;
   text-align: center;
   line-height: 2.3;
@@ -293,6 +397,7 @@ audio {
   color: #333333;
   margin: 0 auto;
   max-width: 80%;
+  margin-bottom: 0px;
 }
 
 .section-title {
@@ -306,6 +411,7 @@ audio {
   font-family: 'Nanum Myeongjo', serif;
   font-size: 2em;
   color: #333333;
+  text-align: center;
 }
 
 /* 커버 섹션 텍스트 스타일 */
@@ -409,8 +515,11 @@ audio {
 
 /* 마지막 섹션에 하단 패딩 추가 (버튼 영역만큼의 여백) */
 #guestbook {
-  padding: 40px 20px;
+  padding: 40px 0;
   background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #guestbook h2 {
@@ -422,42 +531,51 @@ audio {
 }
 
 .guestbook-form {
-  max-width: 500px;
+  max-width: 400px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .guestbook-form input,
-.guestbook-form textarea {
+.guestbook-form textarea,
+.guestbook-form .submit-button {
   width: 100%;
   padding: 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
   box-sizing: border-box;
+  font-family: 'Nanum Myeongjo', serif;
+  margin: 0;
+  max-width: 400px;
 }
 
 .guestbook-form textarea {
-  height: 100px;
+  height: 120px;
   resize: none;
 }
 
 .submit-button {
   width: 100%;
   padding: 15px;
-  background-color: #333;
+  background-color: #EC746F;
   color: white;
-  border: none;
+  border: none !important;
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-family: 'Nanum Myeongjo', serif;
+  margin: 0;
 }
 
 .submit-button:hover {
-  background-color: #444;
+  background-color: #e66761;
 }
 
 /* 메시지 컨테이너 */
@@ -640,6 +758,11 @@ form {
   .wedding-info {
     font-size: 1.1em;
   }
+  
+  .guestbook-form {
+    width: calc(100% - 30px);
+    margin: 0 15px;
+  }
 }
 
 main {
@@ -662,8 +785,9 @@ main {
 }
 
 .name-divider {
-  margin: 0 15px;
-  color: #EC746F;
+  margin: 0 8px;
+  font-size: 0.8em;
+  color: #333333;
 }
 
 .wedding-info {
@@ -725,24 +849,10 @@ main {
   background-color: #f8f8f8;
 }
 
-/* 계좌 정보 영역 */
-.account-info {
-  margin-top: 15px;
-  padding: 20px;
-  background-color: #f8f8f8;
-  border-radius: 15px;
-  animation: slideDown 0.3s ease-out;
-}
-
-.account-info p {
-  margin: 5px 0;
-  color: #333;
-}
-
 /* 복사 버튼 */
 .copy-button {
-  margin-top: 15px;
-  padding: 12px 30px;
+  margin-top: 0px;
+  padding: 0px 0px;
   background-color: #EC746F;
   color: white;
   border: none;
@@ -788,3 +898,125 @@ main {
     transform: translateY(0);
   }
 }
+
+/* 모든 섹션 제목 스타일 통일 */
+#greeting h2,
+#gallery h2,
+#movie h2,
+#location h2,
+#account h2,
+#guestbook h2 {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 2em;
+  color: #333333;
+}
+
+#location p {
+  text-align: center;
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+}
+
+/* 기존 account-subtitle 스타일과 동일하게 설정 */
+.account-subtitle,
+#location p {
+  text-align: center;
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+}
+
+.invitation-image {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.invitation-image img {
+  width: 50%;
+  height: auto;
+  opacity: 0.8
+}
+
+.parents-info {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+
+.parent-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.parent-title {
+  font-size: 1.1em;
+  color: #333;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* 교통 안내 스타일 */
+.traffic-info {
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.traffic-section {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  text-align: left !important;
+}
+
+.traffic-section h3 {
+  color: #333;
+  font-size: 1.1em;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.traffic-section h3 i {
+  color: #EC746F;
+}
+
+.traffic-section p {
+  color: #666;
+  font-size: 0.8em !important;
+  line-height: 1.6;
+  margin: 0;
+  text-align: left !important;
+}
+
+.traffic-info .traffic-section p {
+  font-size: 0.8em;
+  text-align: left !important;
+}
+
+@media screen and (max-width: 768px) {
+  .traffic-section p {
+    font-size: 0.8em;
+    text-align: left !important;
+  }
+}
+
+/* Font Awesome 아이콘 추가 */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
