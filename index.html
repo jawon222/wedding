@@ -116,21 +116,50 @@
 
     .thank-you-message {
       position: absolute;
-      top: -30px;
+      top: -40px;
       left: 50%;
       transform: translateX(-50%);
-      background-color: rgba(255, 107, 107, 0.9);
-      color: white;
-      padding: 8px 15px;
+      background-color: white;
+      color: #ff6b6b;
+      padding: 10px 20px;
       border-radius: 20px;
       font-size: 16px;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: all 0.3s ease;
       white-space: nowrap;
+      border: 2px solid #ff6b6b;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .thank-you-message:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid white;
+    }
+
+    .thank-you-message:before {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 11px solid transparent;
+      border-right: 11px solid transparent;
+      border-top: 11px solid #ff6b6b;
     }
 
     .thank-you-message.show {
       opacity: 1;
+      transform: translateX(-50%) translateY(-5px);
     }
   </style>
 </head>
@@ -471,16 +500,35 @@
     "축하해요 💖",
     "행복해요 💗",
     "응원해요 💓",
-    "기뻐요 💞",
-    "축하 감사합니다 💘"
+    "축하 감사합니다 💘",
+    "종경💝자원",
+    "정말 감사합니다 💖",
+    "사랑합니다 💗"
   ];
 
   // 하트 버튼 클릭 이벤트
   document.getElementById('heartButton').addEventListener('click', () => {
     // 하트 폭죽 효과
-    const colors = ['#ff6b6b', '#ff8e8e', '#ffb6b6', '#ffd1d1'];
+    const colors = [
+      // 핑크 계열
+      '#ff6b6b', '#ff8e8e', '#ffb6b6', '#ffd1d1',
+      '#ff69b4', '#ff1493', '#ffc0cb', '#ffb6c1',
+      '#ff69b4', '#ff1493', '#ffc0cb', '#ffb6c1',
+      // 파스텔 핑크
+      '#ffd6e0', '#ffb6c1', '#ffc0cb', '#ffd1dc',
+      '#ffb6c1', '#ffc0cb', '#ffd1dc', '#ffd6e0',
+      // 라벤더 계열
+      '#e6e6fa', '#d8bfd8', '#dda0dd', '#ee82ee',
+      // 코랄 계열
+      '#ff7f50', '#ff6347', '#ff4500', '#ff8c69',
+      // 골드 계열
+      '#ffd700', '#ffdf00', '#ffec00', '#fff200',
+      // 화이트 계열
+      '#fff0f5', '#ffe4e1', '#fff5ee', '#faf0e6'
+    ];
     
-    for (let i = 0; i < 50; i++) {
+    // 중앙에서 터지는 하트
+    for (let i = 0; i < 30; i++) {
       setTimeout(() => {
         confetti({
           particleCount: 1,
@@ -489,6 +537,57 @@
           gravity: 0.5,
           ticks: 200,
           origin: { x: 0.5, y: 0.5 },
+          colors: [colors[Math.floor(Math.random() * colors.length)]],
+          shapes: ['heart'],
+          scalar: 1.5
+        });
+      }, i * 50);
+    }
+
+    // 좌우에서 터지는 하트
+    for (let i = 0; i < 20; i++) {
+      setTimeout(() => {
+        // 왼쪽에서 터지는 하트
+        confetti({
+          particleCount: 1,
+          angle: 60,
+          spread: 55,
+          startVelocity: 30,
+          gravity: 0.5,
+          ticks: 200,
+          origin: { x: 0.2, y: 0.5 },
+          colors: [colors[Math.floor(Math.random() * colors.length)]],
+          shapes: ['heart'],
+          scalar: 1.5
+        });
+
+        // 오른쪽에서 터지는 하트
+        confetti({
+          particleCount: 1,
+          angle: 120,
+          spread: 55,
+          startVelocity: 30,
+          gravity: 0.5,
+          ticks: 200,
+          origin: { x: 0.8, y: 0.5 },
+          colors: [colors[Math.floor(Math.random() * colors.length)]],
+          shapes: ['heart'],
+          scalar: 1.5
+        });
+      }, i * 50);
+    }
+
+    // 아래에서 위로 터지는 하트
+    for (let i = 0; i < 20; i++) {
+      setTimeout(() => {
+        confetti({
+          particleCount: 1,
+          angle: 270,
+          spread: 70,
+          startVelocity: 30,
+          gravity: 0.5,
+          ticks: 200,
+          origin: { x: 0.5, y: 0.8 },
           colors: [colors[Math.floor(Math.random() * colors.length)]],
           shapes: ['heart'],
           scalar: 1.5
