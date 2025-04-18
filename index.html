@@ -9,8 +9,186 @@
   <link href="https://webfontworld.github.io/ChosunNm/ChosunNm.css" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    @keyframes falling {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .heart {
+      position: fixed;
+      width: var(--size);
+      height: var(--size);
+      background: linear-gradient(135deg, var(--color1), var(--color2));
+      transform: rotate(45deg);
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.8;
+    }
+
+    .heart:before,
+    .heart:after {
+      content: '';
+      width: var(--size);
+      height: var(--size);
+      background: inherit;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart:before {
+      left: calc(var(--size) * -0.5);
+    }
+
+    .heart:after {
+      top: calc(var(--size) * -0.5);
+    }
+
+    /* invitation 문구 줄바꿈 방지 */
+    #greeting p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* 모바일 환경에서도 한 줄로 표시 */
+    @media screen and (max-width: 768px) {
+      #greeting p {
+        font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.5;
+      }
+    }
+
+    /* 하트 버튼 스타일 */
+    .heart-button-container {
+      text-align: center;
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .heart-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 2.5rem;
+      color: #ff6b6b;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+      filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.5));
+    }
+
+    .heart-button:hover {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 15px rgba(255, 107, 107, 0.8));
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.5));
+      }
+      50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 20px rgba(255, 107, 107, 0.8));
+      }
+      100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.5));
+      }
+    }
+
+    .thank-you-message {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(255, 107, 107, 0.9);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 16px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .thank-you-message.show {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
+  <script>
+    // 하트 생성 함수
+    function createHearts() {
+      const coverSection = document.getElementById('cover');
+      if (!coverSection) return;
+
+      const heartCount = 10;
+      const colors = [
+        { color1: '#ff6b6b', color2: '#ff8e8e' },
+        { color1: '#ff8e8e', color2: '#ffb6b6' },
+        { color1: '#ffb6b6', color2: '#ffd1d1' },
+        { color1: '#ffd1d1', color2: '#ffe0e0' }
+      ];
+
+      for (let i = 0; i < heartCount; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.className = 'heart';
+          
+          // 랜덤 크기 (5px ~ 15px)
+          const size = Math.random() * 10 + 5;
+          
+          // 랜덤 색상 선택
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          
+          // cover 섹션의 위치와 크기에 맞춰 하트 생성
+          const coverRect = coverSection.getBoundingClientRect();
+          const startX = coverRect.left + Math.random() * coverRect.width;
+          
+          heart.style.cssText = `
+            --size: ${size}px;
+            --color1: ${color.color1};
+            --color2: ${color.color2};
+            left: ${startX}px;
+            top: ${coverRect.top}px;
+            animation: falling ${Math.random() * 5 + 8}s linear infinite;
+            animation-delay: ${Math.random() * 3}s;
+          `;
+          
+          document.body.appendChild(heart);
+          
+          heart.addEventListener('animationend', () => {
+            heart.remove();
+          });
+        }, i * 500);
+      }
+    }
+
+    // 페이지 로드 시 하트 생성 시작
+    document.addEventListener('DOMContentLoaded', () => {
+      createHearts();
+      setInterval(createHearts, 8000);
+    });
+  </script>
 
 <!-- 🎵 배경음악 자동 재생 -->
 <audio id="bgm" autoplay loop muted>
@@ -71,10 +249,10 @@
 
   <div class="parents-info">
     <div class="parent-group">
-      <p class="parent-title"><strong>이선기 · 김미</strong> 의 장남 <strong>종경</strong></p>
+      <p class="parent-title"><strong id="groom-parents">이선기 · 김미</strong> 의 장남 <strong id="groom-name">종경</strong></p>
     </div>
     <div class="parent-group">
-      <p class="parent-title"><strong>이도중 · 김성화</strong> 의 차녀 <strong>자원</strong></p>
+      <p class="parent-title"><strong id="bride-parents">이도중 · 김성화</strong> 의 차녀 <strong id="bride-name">자원</strong></p>
     </div>
   </div>
 </section><br><br><br>
@@ -211,6 +389,15 @@
     </div>
   </div>
 
+  <!-- 하트 버튼을 계좌번호 아래로 이동 -->
+  <div class="heart-button-container">
+    <button id="heartButton" class="heart-button">
+      <i class="fas fa-heart"></i>
+    </button>
+    <!-- 감사 메시지 표시 영역 -->
+    <div id="thankYouMessage" class="thank-you-message"></div>
+  </div>
+
   <!-- 토스트 메시지 -->
   <div id="toast-message" class="toast-message">
     계좌번호가 복사되었습니다
@@ -266,14 +453,59 @@
         const toast = document.getElementById('toast-message');
         toast.classList.add('show');
         
-        // 2초 후 토스트 메시지 숨김
+        // 3초 후 토스트 메시지 숨김
         setTimeout(() => {
           toast.classList.remove('show');
-        }, 2000);
+        }, 3000);
       } catch (err) {
         alert('계좌번호 복사에 실패했습니다.');
       }
     });
+  });
+
+  // 감사 메시지 배열
+  const thankYouMessages = [
+    "감사합니다 💕",
+    "사랑해요 ❤️",
+    "고마워요 💝",
+    "축하해요 💖",
+    "행복해요 💗",
+    "응원해요 💓",
+    "기뻐요 💞",
+    "축하 감사합니다 💘"
+  ];
+
+  // 하트 버튼 클릭 이벤트
+  document.getElementById('heartButton').addEventListener('click', () => {
+    // 하트 폭죽 효과
+    const colors = ['#ff6b6b', '#ff8e8e', '#ffb6b6', '#ffd1d1'];
+    
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => {
+        confetti({
+          particleCount: 1,
+          spread: 360,
+          startVelocity: 30,
+          gravity: 0.5,
+          ticks: 200,
+          origin: { x: 0.5, y: 0.5 },
+          colors: [colors[Math.floor(Math.random() * colors.length)]],
+          shapes: ['heart'],
+          scalar: 1.5
+        });
+      }, i * 50);
+    }
+
+    // 랜덤 감사 메시지 표시
+    const messageElement = document.getElementById('thankYouMessage');
+    const randomMessage = thankYouMessages[Math.floor(Math.random() * thankYouMessages.length)];
+    messageElement.textContent = randomMessage;
+    messageElement.classList.add('show');
+
+    // 2초 후 메시지 사라짐
+    setTimeout(() => {
+      messageElement.classList.remove('show');
+    }, 2000);
   });
 </script>
 

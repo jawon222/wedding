@@ -14,12 +14,53 @@ function toggleBGM() {
   icon.textContent = isMuted ? "🔇" : "🔊";
 }
 
+// 꽃잎 애니메이션
+function createPetals() {
+  const petalCount = 15;
+  const colors = ['#ffb6c1', '#ffc0cb', '#ffd1dc', '#ffd8e1'];
+
+  for (let i = 0; i < petalCount; i++) {
+    setTimeout(() => {
+      const petal = document.createElement('div');
+      petal.style.cssText = `
+        position: fixed;
+        width: ${Math.random() * 15 + 10}px;
+        height: ${Math.random() * 15 + 10}px;
+        background-color: ${colors[Math.floor(Math.random() * colors.length)]};
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1000;
+        opacity: 0.8;
+        left: ${Math.random() * window.innerWidth}px;
+        top: -20px;
+        animation: falling ${Math.random() * 3 + 2}s linear infinite;
+        animation-delay: ${Math.random() * 2}s;
+      `;
+      
+      document.body.appendChild(petal);
+      
+      petal.addEventListener('animationend', () => {
+        petal.remove();
+      });
+    }, i * 200);
+  }
+}
+
+// 페이지 로드 시 꽃잎 생성 시작
+document.addEventListener('DOMContentLoaded', () => {
+  createPetals();
+  setInterval(createPetals, 5000);
+});
+
 const API_URL = 'https://guestbook-api.your-worker.workers.dev/api';
 
 // 방명록 관련 전역 변수
 let messages = [];
 let currentEditId = null;
 const ADMIN_PASSWORD = 'admin1234'; // 관리자 비밀번호
+
+// 전역 변수 선언 (하드코딩된 계좌 정보 제거)
+let accounts = {};
 
 // 메시지 제출 함수
 async function submitMessage() {
@@ -313,49 +354,41 @@ document.querySelector('.top-button').addEventListener('click', () => {
 });
 
 // 계좌번호 관련 함수들
-const accounts = {
-  groom: {
-    name: '신랑 이종경',
-    bank: '농협',
-    account: '531012-56-215786',
-    holder: '이종경'
-  },
-  bride: {
-    name: '신부 이자원',
-    bank: '신한은행',
-    account: '110-336-161568',
-    holder: '이자원'
-  }
-};
-
 function showAccount(type) {
+  if (!accounts[type]) {
+    alert("계좌 정보를 아직 불러오는 중입니다.");
+    return;
+  }
+
   const account = accounts[type];
   showModal(`
     <div class="modal-title">${account.name}</div>
     <div class="account-info">
-      <p>${account.bank}</p>
-      <p>${account.account}</p>
-      <p>예금주: ${account.holder}</p>
+      <p>${account.bank} ${account.number}</p>
+      <p>예금주: ${account.name}</p>
     </div>
-    <button class="copy-button" onclick="copyAccount('${account.account}')">복사하기</button>
+    <button class="copy-button" onclick="copyAccount('${account.number}')">복사하기</button>
     <button class="close-button" onclick="closeModal()">닫기</button>
   `);
 }
 
 function showAllAccounts() {
+  if (!accounts.groom || !accounts.bride) {
+    alert("계좌 정보를 아직 불러오는 중입니다.");
+    return;
+  }
+
   showModal(`
     <div class="modal-title">계좌번호 전체보기</div>
     <div class="account-info">
       <p><strong>신랑 측</strong></p>
-      <p>${accounts.groom.bank}</p>
-      <p>${accounts.groom.account}</p>
-      <p>예금주: ${accounts.groom.holder}</p>
+      <p>${accounts.groom.bank} ${accounts.groom.number}</p>
+      <p>예금주: ${accounts.groom.name}</p>
     </div>
     <div class="account-info">
       <p><strong>신부 측</strong></p>
-      <p>${accounts.bride.bank}</p>
-      <p>${accounts.bride.account}</p>
-      <p>예금주: ${accounts.bride.holder}</p>
+      <p>${accounts.bride.bank} ${accounts.bride.number}</p>
+      <p>예금주: ${accounts.bride.name}</p>
     </div>
     <button class="close-button" onclick="closeModal()">닫기</button>
   `);
@@ -423,4 +456,28 @@ function toggleAccount(accountId) {
     accountInfo.style.display = 'none';
   }
 }
+
+async function loadAccounts() {
+  try {
+    const res = await fetch('https://32fa98d8-ee0f-42bc-9923-0c292ce1e14e-00-268plipv97gu8.pike.replit.dev/account');
+    const data = await res.json();
+    accounts = data;
+    
+    // 이름 정보 업데이트
+    document.getElementById('groom-parents').textContent = accounts.groom.parents;
+    document.getElementById('groom-name').textContent = accounts.groom.name;
+    document.getElementById('bride-parents').textContent = accounts.bride.parents;
+    document.getElementById('bride-name').textContent = accounts.bride.name;
+    
+    console.log('계좌 정보가 성공적으로 로드되었습니다:', accounts);
+  } catch (e) {
+    console.error("계좌 정보를 불러오지 못했습니다", e);
+  }
+}
+
+// 페이지 로드 시 계좌 정보 불러오기
+document.addEventListener('DOMContentLoaded', () => {
+  loadAccounts();
+  // 기존 DOMContentLoaded 이벤트 핸들러 내용...
+});
 

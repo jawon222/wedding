@@ -766,3 +766,33 @@ main {
 
 /* Font Awesome 아이콘 추가 */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+/* 꽃잎 애니메이션 스타일 */
+.petal {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background-image: url('images/petal.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.8;
+}
+
+@keyframes falling {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
