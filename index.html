@@ -165,8 +165,14 @@
 </head>
 <body>
   <script>
+    // 하트 생성 인터벌 ID 저장
+    let heartIntervalId = null;
+    let isHeartsActive = true;
+
     // 하트 생성 함수
     function createHearts() {
+      if (!isHeartsActive) return; // 하트 생성이 비활성화된 경우 중단
+
       const coverSection = document.getElementById('cover');
       if (!coverSection) return;
 
@@ -180,16 +186,13 @@
 
       for (let i = 0; i < heartCount; i++) {
         setTimeout(() => {
+          if (!isHeartsActive) return; // 하트 생성 중 비활성화된 경우 중단
+
           const heart = document.createElement('div');
           heart.className = 'heart';
           
-          // 랜덤 크기 (5px ~ 15px)
           const size = Math.random() * 10 + 5;
-          
-          // 랜덤 색상 선택
           const color = colors[Math.floor(Math.random() * colors.length)];
-          
-          // cover 섹션의 위치와 크기에 맞춰 하트 생성
           const coverRect = coverSection.getBoundingClientRect();
           const startX = coverRect.left + Math.random() * coverRect.width;
           
@@ -214,8 +217,33 @@
 
     // 페이지 로드 시 하트 생성 시작
     document.addEventListener('DOMContentLoaded', () => {
+      const invitationSection = document.getElementById('greeting');
+      
+      // 스크롤 이벤트 리스너 추가
+      window.addEventListener('scroll', () => {
+        const invitationRect = invitationSection.getBoundingClientRect();
+        const isInvitationVisible = invitationRect.top <= window.innerHeight;
+        
+        if (isInvitationVisible && isHeartsActive) {
+          // INVITATION 섹션이 보이면 하트 생성 중지
+          isHeartsActive = false;
+          if (heartIntervalId) {
+            clearInterval(heartIntervalId);
+            heartIntervalId = null;
+          }
+          // 모든 하트 제거
+          document.querySelectorAll('.heart').forEach(heart => heart.remove());
+        } else if (!isInvitationVisible && !isHeartsActive) {
+          // INVITATION 섹션이 보이지 않으면 하트 생성 시작
+          isHeartsActive = true;
+          createHearts();
+          heartIntervalId = setInterval(createHearts, 8000);
+        }
+      });
+
+      // 초기 하트 생성
       createHearts();
-      setInterval(createHearts, 8000);
+      heartIntervalId = setInterval(createHearts, 8000);
     });
   </script>
 
