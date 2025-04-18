@@ -50,7 +50,7 @@
 <section class="page fade-in-section" id="cover-text">
   <div class="couple-names">
     <span class="groom-name"><strong>종경</strong></span>
-    <span class="name-divider">그리고</span>
+    <span class="name-divider"><strong>그리고</strong></span>
     <span class="bride-name"><strong>자원</strong></span>
   </div><br><br>
   <div class="wedding-info">
@@ -266,30 +266,16 @@
         const toast = document.getElementById('toast-message');
         toast.classList.add('show');
         
-        // 3초 후 토스트 메시지 숨김
+        // 2초 후 토스트 메시지 숨김
         setTimeout(() => {
           toast.classList.remove('show');
-        }, 3000);
+        }, 2000);
       } catch (err) {
         alert('계좌번호 복사에 실패했습니다.');
       }
     });
   });
 </script>
-
-<!-- 하단 버튼 영역 (floating-buttons를 bottom-buttons로 변경) -->
-<div class="bottom-buttons">
-  <button class="like-button">
-    <span class="heart-icon">❤️</span>
-    <span class="like-count">0</span>
-  </button>
-  <button class="share-button">
-    <span>공유</span>
-  </button>
-  <button class="top-button">
-    <span>위로</span>
-  </button>
-</div>
 
 <!-- Canvas for confetti -->
 <canvas id="confetti-canvas"></canvas>
