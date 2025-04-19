@@ -31,6 +31,15 @@
     }
   </script>
   <style>
+    /* 이미지 확대 방지 */
+    img {
+      max-width: 100%;
+      height: auto;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
     @keyframes falling {
       0% {
         transform: translateY(-100px) rotate(0deg);
