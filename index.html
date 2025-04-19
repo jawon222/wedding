@@ -40,6 +40,41 @@
       -webkit-user-drag: none;
     }
 
+    /* cover 이미지 특별 스타일 */
+    .cover-img {
+      max-width: 100%;
+      height: auto;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    /* 갤러리 스타일 */
+    .swiper {
+      height: 500px;  /* Swiper 컨테이너 고정 높이 설정 */
+      position: relative;
+    }
+
+    .swiper-slide {
+      height: 100%;   /* 슬라이드가 Swiper 높이를 상속 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .swiper-slide img {
+      width: auto;
+      max-height: 80%;  /* 이미지 최대 높이를 swiper 높이의 80%로 제한 */
+      object-fit: contain;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);  /* 정확한 중앙 정렬 */
+    }
+
     @keyframes falling {
       0% {
         transform: translateY(-100px) rotate(0deg);

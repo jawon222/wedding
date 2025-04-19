@@ -110,13 +110,18 @@ button {
 .swiper-slide {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center
+  height: 100%;
+  overflow: hidden;
 }
 
 .swiper-slide img {
-  width: 100%;
+  width: auto;               /* 기존 width:100% → auto 로 변경 */
   height: auto;
-  object-fit: cover;
+  max-height: 100%;          /* 500px 을 넘지 않음 */
+  max-width: 100%;           /* 좌우도 슬라이드 안에서만 */
+  object-fit: contain;       /* cover → contain (잘리지 않음) */
+  object-position: center;   /* 혹시 잘릴 때도 중앙 기준 */
 }
 
 /* 네비게이션 버튼 커스텀 스타일 */
