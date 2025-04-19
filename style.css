@@ -5,10 +5,12 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: 'Nanum Myeongjo', serif;
+  font-family: 'ChosunNm', 'Nanum Myeongjo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   color: #333333;
   background-color: #ffffff;
   overflow-x: hidden; /* 가로 스크롤 방지 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .page {
@@ -412,6 +414,23 @@ audio {
   margin: 5px 0;
 }
 
+/* INVITATION 두 번째 문장 위 여백 */
+#greeting .invitation-bottom {
+  margin-top: 1.5em;   /* 필요에 따라 값만 조정하면 돼요 */
+}
+
+/* Invitation 문구 전용 글꼴 + 간격 */
+.invitation-text {
+  font-family: 'ChosunNm', 'Nanum Myeongjo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.invitation-bottom {
+  margin-top: 1.5em;   /* 위쪽 여백 */
+}
+
 .section-title {
   width: 100%;
   height: 183px;
@@ -420,10 +439,12 @@ audio {
   justify-content: center;
   background-color: #F7F8F9;
   margin: 0;
-  font-family: 'Nanum Myeongjo', serif;
+  font-family: 'ChosunNm', 'Nanum Myeongjo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-size: 2em;
   color: #333333;
   text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* 커버 섹션 텍스트 스타일 */
@@ -656,9 +677,11 @@ main {
   width: 100%;
   margin: 0 auto;
   padding: 20px 0;
-  font-family: 'Nanum Myeongjo', serif;
+  font-family: 'ChosunNm', 'Nanum Myeongjo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-size: 2em;
   color: #333333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #location p {
@@ -795,4 +818,48 @@ main {
     transform: translateY(100vh) rotate(360deg);
     opacity: 0;
   }
+}
+
+/* iOS 폰트 로딩 개선 */
+@font-face {
+  font-family: 'ChosunNm';
+  src: url('https://webfontworld.github.io/ChosunNm/ChosunNm.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ChosunNm';
+  src: url('https://webfontworld.github.io/ChosunNm/ChosunNmBold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 폰트 로딩 전 폴백 스타일 */
+.fonts-loaded body,
+.fonts-loaded .invitation-text,
+.fonts-loaded .section-title,
+.fonts-loaded #greeting h2,
+.fonts-loaded #gallery h2,
+.fonts-loaded #movie h2,
+.fonts-loaded #location h2,
+.fonts-loaded #account h2,
+.fonts-loaded #guestbook h2 {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+body,
+.invitation-text,
+.section-title,
+#greeting h2,
+#gallery h2,
+#movie h2,
+#location h2,
+#account h2,
+#guestbook h2 {
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }

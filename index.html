@@ -5,10 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>종경 ♥ 자원 모바일 청첩장</title>
   <link rel="stylesheet" href="style.css">
-  <!-- 웹폰트 불러오기 -->
+  <!-- 웹폰트 불러오기 - iOS 대응 -->
+  <link rel="preconnect" href="https://webfontworld.github.io">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link href="https://webfontworld.github.io/ChosunNm/ChosunNm.css" rel="stylesheet">
+  <!-- 나눔명조 폰트 추가 -->
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- iOS 폰트 로딩 개선을 위한 스크립트 -->
+  <script>
+    // iOS에서 폰트 로딩 개선
+    document.documentElement.classList.add('fonts-loaded');
+    
+    // 폰트 로딩 확인
+    if ("fonts" in document) {
+      Promise.all([
+        document.fonts.load("400 1em ChosunNm"),
+        document.fonts.load("700 1em ChosunNm"),
+        document.fonts.load("400 1em Nanum Myeongjo"),
+        document.fonts.load("700 1em Nanum Myeongjo")
+      ]).then(() => {
+        document.documentElement.classList.add("fonts-loaded");
+      });
+    }
+  </script>
   <style>
     @keyframes falling {
       0% {
@@ -248,32 +269,69 @@
   </script>
 
 <!-- 🎵 배경음악 자동 재생 -->
-<audio id="bgm" autoplay loop muted>
+<audio id="bgm" autoplay loop>
   <source src="audio/bgm.mp3" type="audio/mpeg">
 </audio>
 
 <!-- 🎀 헤더 영역 -->
 <header class="wedding-header">
   <button id="toggleBGM" onclick="toggleBGM()">
-    <span id="bgmIcon">🔈</span>
+    <span id="bgmIcon">🔊</span>
   </button>
 </header>
 
 <!-- ✨ 자바스크립트: 음악 제어 함수 -->
 <script>
-  let isMuted = true;
+  let isMuted = false;  //기본값을 false로 설정
   function toggleBGM() {
     const audio = document.getElementById('bgm');
     const icon = document.getElementById('bgmIcon');
-    isMuted = !isMuted;
-    audio.muted = isMuted;
-    if (!isMuted) {
-      audio.play().catch(() => {
-        alert("브라우저에서 음악 자동재생이 차단되었습니다.");
-      });
-    }
+
+    isMuted = !isMuted; //상태 뒤집기
+    audio.muted = isMuted;  // 음소거 on/off 설정
+
     icon.textContent = isMuted ? "🔈" : "🔊";
   }
+  
+  /* 페이지가 로드되면 즉시 재생을 시도 ----------------- */
+  window.addEventListener('DOMContentLoaded', () => {
+    const audio = document.getElementById('bgm');
+    
+    // 자동 재생 시도
+    const playPromise = audio.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        // 자동 재생 성공
+        isMuted = false;
+        audio.muted = false;
+        document.getElementById('bgmIcon').textContent = '🔊';
+      }).catch(() => {
+        // 자동 재생 실패 시 음소거 상태로 재시도
+        audio.muted = true;
+        isMuted = true;
+        document.getElementById('bgmIcon').textContent = '🔈';
+        
+        // 음소거 상태로 재생 시도
+        audio.play().catch(() => {
+          console.log("브라우저에서 음악 자동재생이 차단되었습니다.");
+        });
+      });
+    }
+  });
+  
+  // 사용자 상호작용 시 음소거 해제 시도
+  document.addEventListener('click', function() {
+    const audio = document.getElementById('bgm');
+    if (isMuted) {
+      audio.muted = false;
+      isMuted = false;
+      document.getElementById('bgmIcon').textContent = '🔊';
+      audio.play().catch(() => {
+        console.log("브라우저에서 음악 재생이 차단되었습니다.");
+      });
+    }
+  }, { once: true }); // 한 번만 실행
 </script>
 
 <!-- 1. Cover -->
@@ -300,16 +358,24 @@
     <img src="images/flower-divider.png" alt="장식 이미지">
   </div>
   <h2>Invitation</h2>
-  <p>좋은 걸 보면 서로가 생각나는 두 사람이 만나<br>
-  평생 서로의 웃음 버튼이 되어주기로 했습니다.<br>
-  그 시작을 지켜봐 주신다면 감사하겠습니다.</p>
+<!-- Invitation 문단 -->
+<p class="invitation-text">
+  좋은 걸 보면 서로가 생각나는 두 사람이 만나<br>
+  평생 서로의 웃음 버튼이 되어주기로 했습니다.
+</p>
+
+<p class="invitation-text invitation-bottom">
+  그 시작을 지켜봐 주신다면 감사하겠습니다.
+</p>
+
+
 
   <div class="parents-info">
     <div class="parent-group">
       <p class="parent-title"><strong id="groom-parents">이선기 · 김미</strong> 의 장남 <strong id="groom-name">종경</strong></p>
     </div>
     <div class="parent-group">
-      <p class="parent-title"><strong id="bride-parents">이도중 · 김성화</strong> 의 차녀 <strong id="bride-name">자원</strong></p>
+      <p class="parent-title"><strong id="bride-parents">이삼응(도중) · 김남옥(성화)</strong> 의 차녀 <strong id="bride-name">자원</strong></p>
     </div>
   </div>
 </section><br><br><br>
@@ -364,7 +430,7 @@
 
 <section class="page fade-in-section" id="movie">
   <h2>Movie</h2><br>
-  <iframe width="100%" height="215" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+  <iframe width="100%" height="300" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
 </section><br><br><br>
 
 <section class="page fade-in-section" id="location">
