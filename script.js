@@ -54,6 +54,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const API_URL = 'https://guestbook-api.your-worker.workers.dev/api';
 
+
+
+
+
+async function loadWeddingMovie() {
+  const url = 'https://mxeutdzqttlomveevcgr.supabase.co';
+  const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14ZXV0ZHpxdHRsb212ZWV2Y2dyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NTA4NTYzNSwiZXhwIjoyMDYwNjYxNjM1fQ.o1qHHGqPnwjQBIF0HmM6REKFttcg5w3AVvJxuA9Nji0'; // 네 실제 키 넣기
+
+  const supabase = window.supabase.createClient(url, key);
+
+  const { data, error } = await supabase
+    .from('wedding_movie')
+    .select('content')
+    .eq('id', 1)
+    .single();
+
+  if (error || !data?.content) {
+    console.error('영상 로딩 실패 ❌:',
+
+
+
+
+
+
+
+
 // 방명록 관련 전역 변수
 let messages = [];
 let currentEditId = null;

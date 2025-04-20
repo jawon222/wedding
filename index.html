@@ -474,36 +474,64 @@
   });
 </script><br><br><br>
 
-<section class="page fade-in-section" id="movie">
-  <h2>Movie</h2><br>
-  <iframe width="100%" height="300" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-</section><br><br><br>
+<!-- Movie Section -->
+<section id="movie">
+  <h2>Movie</h2>
+  <iframe id="wedding-movie" width="100%" height="300" src="" frameborder="0" allowfullscreen></iframe>
+</section>
 
+<!-- Supabase 라이브러리 -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
 <script>
   const SUPABASE_URL = 'https://mxeutdzqttlomveevcgr.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14ZXV0ZHpxdHRsb212ZWV2Y2dyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODU2MzUsImV4cCI6MjA2MDY2MTYzNX0.PaLc2teKxg6OAc063_UzQXgdXtTyt055JSXH2gNMU-E'; // Supabase 대시보드 Project Settings → API에서 anon public 키 복사
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14ZXV0ZHpxdHRsb212ZWV2Y2dyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUwODU2MzUsImV4cCI6MjA2MDY2MTYzNX0.PaLc2teKxg6OAc063_UzQXgdXtTyt055JSXH2gNMU-E';
 
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // 유튜브 링크 변환
+  function convertToEmbedUrl(url) {
+    try {
+      const yt = new URL(url);
+      if (yt.hostname === 'youtu.be') {
+        return `https://www.youtube.com/embed/${yt.pathname.slice(1)}`;
+      }
+      if (yt.hostname.includes('youtube.com')) {
+        const videoId = yt.searchParams.get('v');
+        if (videoId) return `https://www.youtube.com/embed/${videoId}`;
+      }
+    } catch (e) {
+      console.error('URL 파싱 실패:', e);
+    }
+    return null;
+  }
 
   async function loadWeddingMovie() {
+    const iframe = document.getElementById('wedding-movie');
+    if (!iframe) return;
+
     const { data, error } = await supabase
       .from('wedding_movie')
       .select('content')
       .eq('id', 1)
       .single();
 
-    if (error) {
-      console.error('문구 로딩 에러:', error);
-      return;
-    }
+    console.log('✅ data:', data);
+    console.error('❌ error:', error);
 
-    const iframe = document.getElementById('wedding-movie');
-    iframe.src = data.content.replace('watch?v=', 'embed/');
+    if (error || !data?.content) return;
+
+    const embedUrl = convertToEmbedUrl(data.content);
+    console.log('🎯 embedUrl:', embedUrl);
+
+    if (embedUrl) {
+      iframe.src = embedUrl;
+    }
   }
 
-  document.addEventListener('DOMContentLoaded', loadWeddingMovie);
+  window.addEventListener('load', loadWeddingMovie);
 </script>
+
 
 
 
