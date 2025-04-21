@@ -575,6 +575,7 @@
      </div>
 </section><br><br>
 
+<!-- 계좌번호 섹션 -->
 <section class="page fade-in-section" id="account">
   <h2>마음 전하실 곳</h2><br>
   
@@ -620,7 +621,17 @@
     </div>
   </div>
 
-  <!-- 하트 버튼을 계좌번호 아래로 이동 -->
+    
+  <!-- 토스트 메시지 -->
+  <div id="toast-message" class="toast-message">
+    계좌번호가 복사되었습니다
+  </div>
+</section>
+
+
+
+
+  <!-- 하트 버튼은 계좌번호 아래 이동 -->
   <div class="heart-button-container">
     <button id="heartButton" class="heart-button">
       <i class="fas fa-heart"></i>
@@ -629,11 +640,35 @@
     <div id="thankYouMessage" class="thank-you-message"></div>
   </div>
 
-  <!-- 토스트 메시지 -->
-  <div id="toast-message" class="toast-message">
-    계좌번호가 복사되었습니다
+    <!-- ✅ 터치 안내 문구 추가 -->
+    <div class="heart-touch-text">터치</div>
+  </div>
+
+
+<br><br><br><br>
+
+
+
+<!-- 공유하기 섹션 -->
+<section class="page fade-in-section" id="share">
+  <h2>청첩장 공유하기</h2><br>
+  <div class="share-container" style="text-align: center;">
+    <button class="share-button" onclick="navigator.clipboard.writeText(window.location.href).then(() => alert('링크가 복사되었습니다!'))">
+      <span>청첩장 공유하기</span>
+      <i class="fas fa-share-alt"></i>
+    </button>
   </div>
 </section>
+<br><br><br><br>
+</main>
+
+
+
+<!-- 푸터 -->
+<footer>
+  <p>🌷 2025 자원이 마음을 담아 만들었습니다.</p>
+  <p>찾아와 주셔서 감사합니다 🌷</p>
+</footer>
 
 <script>
   // 커버 이미지 페이드인
@@ -807,6 +842,31 @@
     setTimeout(() => {
       messageElement.classList.remove('show');
     }, 2000);
+  });
+
+  // 계좌번호 섹션 관찰자 설정
+  const accountObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // 계좌번호 섹션이 보이면 하트 버튼 클릭 이벤트 트리거
+        const heartButton = document.getElementById('heartButton');
+        if (heartButton) {
+          heartButton.click();
+        }
+        // 한 번만 실행되도록 관찰 중단
+        accountObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.5 // 50% 이상 보일 때 트리거
+  });
+
+  // 계좌번호 섹션 관찰 시작
+  document.addEventListener('DOMContentLoaded', () => {
+    const accountSection = document.getElementById('account');
+    if (accountSection) {
+      accountObserver.observe(accountSection);
+    }
   });
 </script>
 

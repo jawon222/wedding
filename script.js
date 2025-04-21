@@ -1,4 +1,4 @@
-// 🎵 배경음악 ON/OFF 토글 함수 + 방명록 저장 기능 포함
+// 🎵 배경음악 ON/OFF 토글 함수
 let isMuted = true;
 
 function toggleBGM() {
@@ -12,202 +12,6 @@ function toggleBGM() {
     });
   }
   icon.textContent = isMuted ? "🔇" : "🔊";
-}
-
-// 꽃잎 애니메이션
-function createPetals() {
-  const petalCount = 15;
-  const colors = ['#ffb6c1', '#ffc0cb', '#ffd1dc', '#ffd8e1'];
-
-  for (let i = 0; i < petalCount; i++) {
-    setTimeout(() => {
-      const petal = document.createElement('div');
-      petal.style.cssText = `
-        position: fixed;
-        width: ${Math.random() * 15 + 10}px;
-        height: ${Math.random() * 15 + 10}px;
-        background-color: ${colors[Math.floor(Math.random() * colors.length)]};
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 1000;
-        opacity: 0.8;
-        left: ${Math.random() * window.innerWidth}px;
-        top: -20px;
-        animation: falling ${Math.random() * 3 + 2}s linear infinite;
-        animation-delay: ${Math.random() * 2}s;
-      `;
-      
-      document.body.appendChild(petal);
-      
-      petal.addEventListener('animationend', () => {
-        petal.remove();
-      });
-    }, i * 200);
-  }
-}
-
-// 페이지 로드 시 꽃잎 생성 시작
-document.addEventListener('DOMContentLoaded', () => {
-  createPetals();
-  setInterval(createPetals, 5000);
-});
-
-const API_URL = 'https://guestbook-api.your-worker.workers.dev/api';
-
-
-
-
-
-async function loadWeddingMovie() {
-  const url = 'https://mxeutdzqttlomveevcgr.supabase.co';
-  const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14ZXV0ZHpxdHRsb212ZWV2Y2dyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NTA4NTYzNSwiZXhwIjoyMDYwNjYxNjM1fQ.o1qHHGqPnwjQBIF0HmM6REKFttcg5w3AVvJxuA9Nji0'; // 네 실제 키 넣기
-
-  const supabase = window.supabase.createClient(url, key);
-
-  const { data, error } = await supabase
-    .from('wedding_movie')
-    .select('content')
-    .eq('id', 1)
-    .single();
-
-  if (error || !data?.content) {
-    console.error('영상 로딩 실패 ❌:',
-
-
-
-
-
-
-
-
-// 방명록 관련 전역 변수
-let messages = [];
-let currentEditId = null;
-const ADMIN_PASSWORD = 'admin1234'; // 관리자 비밀번호
-
-// 전역 변수 선언 (하드코딩된 계좌 정보 제거)
-let accounts = {};
-
-// 메시지 제출 함수
-async function submitMessage() {
-  const nameInput = document.getElementById('name');
-  const passwordInput = document.getElementById('password');
-  const messageInput = document.getElementById('message');
-
-  const newMessage = {
-    id: Date.now(),
-    name: nameInput.value,
-    password: passwordInput.value,
-    message: messageInput.value,
-    date: new Date().toISOString()
-  };
-
-  messages.unshift(newMessage);
-  saveMessages();
-  renderMessages();
-  
-  // 입력 필드 초기화
-  nameInput.value = '';
-  passwordInput.value = '';
-  messageInput.value = '';
-}
-
-// 메시지 렌더링 함수
-function renderMessages() {
-  const container = document.getElementById('messages');
-  container.innerHTML = messages.slice(0, 3).map(msg => `
-    <div class="message-item" data-id="${msg.id}">
-      <div class="message-header">
-        <span class="message-name">${msg.name}</span>
-        <span class="message-date">${formatDate(msg.date)}</span>
-      </div>
-      <p class="message-content">${msg.message}</p>
-      <div class="message-actions">
-        <button class="edit-button" onclick="showEditModal(${msg.id})">✏️</button>
-        <button class="delete-button" onclick="deleteMessage(${msg.id})">×</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-// 수정 모달 표시
-function showEditModal(id) {
-  const message = messages.find(m => m.id === id);
-  if (!message) return;
-
-  const password = prompt('비밀번호를 입력하세요:');
-  if (password !== message.password) {
-    alert('비밀번호가 일치하지 않습니다.');
-    return;
-  }
-
-  currentEditId = id;
-  const modal = document.getElementById('editModal');
-  const messageInput = document.getElementById('editMessage');
-  messageInput.value = message.message;
-  modal.style.display = 'block';
-}
-
-// 메시지 수정
-function updateMessage() {
-  const messageInput = document.getElementById('editMessage');
-  const message = messages.find(m => m.id === currentEditId);
-  if (!message) return;
-
-  message.message = messageInput.value;
-  message.date = new Date().toISOString();
-  
-  saveMessages();
-  renderMessages();
-  closeEditModal();
-}
-
-// 메시지 삭제
-function deleteMessage(id) {
-  const password = prompt('관리자 비밀번호를 입력하세요:');
-  if (password !== ADMIN_PASSWORD) {
-    alert('관리자 비밀번호가 일치하지 않습니다.');
-    return;
-  }
-
-  messages = messages.filter(m => m.id !== id);
-  saveMessages();
-  renderMessages();
-}
-
-// 수정 모달 닫기
-function closeEditModal() {
-  const modal = document.getElementById('editModal');
-  modal.style.display = 'none';
-  currentEditId = null;
-}
-
-// 날짜 포맷 함수
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-}
-
-// 로컬 스토리지에 메시지 저장
-function saveMessages() {
-  localStorage.setItem('guestbookMessages', JSON.stringify(messages));
-}
-
-// 초기 로드
-document.addEventListener('DOMContentLoaded', () => {
-  const savedMessages = localStorage.getItem('guestbookMessages');
-  if (savedMessages) {
-    messages = JSON.parse(savedMessages);
-    renderMessages();
-  }
-});
-
-// 모달 외부 클릭 시 닫기
-window.onclick = function(event) {
-  const modal = document.getElementById('editModal');
-  if (event.target === modal) {
-    closeEditModal();
-  }
 }
 
 // 📦 커버 이미지 페이드 인
@@ -261,123 +65,6 @@ function isElementInViewport(el) {
     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
   );
 }
-
-// 좋아요 카운트 상태 관리
-let likeCount = parseInt(localStorage.getItem('likeCount') || '0');
-const likeButton = document.querySelector('.like-button');
-const likeCountDisplay = document.querySelector('.like-count');
-
-// 초기 카운트 표시
-likeCountDisplay.textContent = likeCount;
-if (likeCount > 0) {
-  likeButton.classList.add('liked');
-}
-
-// 하트 버튼 클릭 이벤트
-likeButton.addEventListener('click', async () => {
-  // 카운트 증가 및 저장
-  likeCount++;
-  likeCountDisplay.textContent = likeCount;
-  localStorage.setItem('likeCount', likeCount.toString());
-  likeButton.classList.add('liked');
-  
-  // 컨페티 효과
-  const confettiColors = ['#EC746F', '#ff9a9e', '#fad0c4', '#ffd1ff'];
-  const confettiConfig = {
-    particleCount: 50,
-    spread: 70,
-    origin: { y: 0.9 },
-    colors: confettiColors,
-    ticks: 200,
-    shapes: ['circle', 'square'],
-    gravity: 1.2,
-    scalar: 1.2,
-    disableForReducedMotion: true
-  };
-
-  // 양쪽에서 터지는 이펙트
-  confetti({
-    ...confettiConfig,
-    angle: 60,
-    origin: { x: 0.3, y: 0.9 }
-  });
-  confetti({
-    ...confettiConfig,
-    angle: 120,
-    origin: { x: 0.7, y: 0.9 }
-  });
-
-  // 아이콘 애니메이션 생성
-  createFloatingIcons();
-});
-
-// 떠다니는 아이콘 생성 함수
-function createFloatingIcons() {
-  const icons = ['❤️', '💝', '💖', '✨', '💫', '🎉'];
-  const container = document.body;
-  
-  icons.forEach((icon, index) => {
-    const element = document.createElement('div');
-    element.className = 'floating-icon';
-    element.textContent = icon;
-    
-    // 각 아이콘마다 다른 시작 위치와 애니메이션
-    const randomX = 45 + (Math.random() * 10);
-    const randomDelay = index * 100;
-    
-    element.style.cssText = `
-      position: fixed;
-      bottom: 80px;
-      left: ${randomX}%;
-      font-size: 1.5rem;
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0;
-      animation: float-up 1.5s ease-out ${randomDelay}ms forwards;
-    `;
-    
-    container.appendChild(element);
-    setTimeout(() => element.remove(), 2000);
-  });
-}
-
-// 떠다니는 아이콘 애니메이션 CSS
-const floatingAnimation = document.createElement('style');
-floatingAnimation.textContent = `
-  @keyframes float-up {
-    0% {
-      transform: translateY(0) rotate(0deg);
-      opacity: 1;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(-150px) rotate(${Math.random() * 360}deg);
-      opacity: 0;
-    }
-  }
-
-  .floating-icon {
-    transition: all 0.3s ease-out;
-  }
-`;
-document.head.appendChild(floatingAnimation);
-
-// 공유 버튼 클릭 이벤트
-document.querySelector('.share-button').addEventListener('click', () => {
-  navigator.clipboard.writeText(window.location.href).then(() => {
-    alert('링크가 복사되었습니다!');
-  });
-});
-
-// 위로가기 버튼 클릭 이벤트
-document.querySelector('.top-button').addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-});
 
 // 계좌번호 관련 함수들
 function showAccount(type) {
@@ -504,6 +191,40 @@ async function loadAccounts() {
 // 페이지 로드 시 계좌 정보 불러오기
 document.addEventListener('DOMContentLoaded', () => {
   loadAccounts();
-  // 기존 DOMContentLoaded 이벤트 핸들러 내용...
+});
+
+// 계좌번호 복사 기능
+document.querySelectorAll('.copy-btn').forEach(button => {
+  button.addEventListener('click', async () => {
+    const accountNumber = button.getAttribute('data-account');
+    try {
+      await navigator.clipboard.writeText(accountNumber);
+      
+      // 토스트 메시지 표시
+      const toast = document.getElementById('toast-message');
+      toast.classList.add('show');
+      
+      // 3초 후 토스트 메시지 숨김
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    } catch (err) {
+      alert('계좌번호 복사에 실패했습니다.');
+    }
+  });
+});
+
+// 아코디언 기능
+document.querySelectorAll('.accordion-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const content = button.nextElementSibling;
+    button.classList.toggle('active');
+    
+    if (button.classList.contains('active')) {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } else {
+      content.style.maxHeight = 0;
+    }
+  });
 });
 

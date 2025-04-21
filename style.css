@@ -1,4 +1,4 @@
-body {
+html, body {
   width: 100%;
   margin: 0;
   padding: 0;
@@ -677,17 +677,20 @@ main {
 #movie h2,
 #location h2,
 #account h2,
-#guestbook h2 {
+#guestbook h2,
+#share h2 {
   text-align: center;
   width: 100%;
   margin: 0 auto;
   padding: 20px 0;
-  font-family: 'ChosunNm', 'Nanum Myeongjo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'ChosunNm', 'Nanum Myeongjo', ...;
   font-size: 2em;
   color: #333333;
+  font-weight: normal; /* ✅ 요거 추가 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 
 #location p {
   text-align: center;
@@ -868,3 +871,88 @@ body,
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+
+
+/* 하트 버튼과 아래 문구 스타일 */
+.heart-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 👉 중심 정렬 핵심 */
+  justify-content: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.heart-button {
+  background: none;
+  border: none;
+  font-size: 2.5rem;
+  color: #ff6b6b;
+  animation: pulse 2s infinite;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heart-button i {
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+.heart-touch-text {
+  font-family: 'ChosunNm', 'Nanum Myeongjo', serif;
+  font-size: 0.85rem;
+  color: #ec746f;
+  line-height: 1;
+  margin-top: -4px;
+  text-align: center;
+}
+
+
+
+/* 푸터 스타일 */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  line-height: 1;
+  background-color: #f8f8f8;
+  margin-bottom: 0;  /* ✅ 푸터 외부 여백 제거 */
+}
+
+/* 공유하기 버튼 스타일 */
+.share-button {
+  width: 90%;
+  margin: 0 auto;
+  padding: 15px 20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;  /* 버튼 안 내용 가운데 정렬 */
+  align-items: center;
+  gap: 10px;                /* 텍스트와 아이콘 간격 */
+  cursor: pointer;
+  font-family: 'ChosunNm', 'Nanum Myeongjo', serif;
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.share-button i {
+  color: #EC746F;
+  font-size: 1.1rem;
+}
+
+.share-button:hover {
+  border-color: #EC746F;
+  color: #EC746F;
+  background-color: #fefafa;
+}
+
