@@ -653,10 +653,15 @@
 <section class="page fade-in-section" id="share">
   <h2>청첩장 공유하기</h2><br>
   <div class="share-container" style="text-align: center;">
-    <button class="share-button" onclick="navigator.clipboard.writeText(window.location.href).then(() => alert('링크가 복사되었습니다!'))">
+    <button class="share-button" onclick="copyShareLink()">
       <span>청첩장 공유하기</span>
       <i class="fas fa-share-alt"></i>
     </button>
+  </div>
+  
+  <!-- 공유하기 토스트 메시지 -->
+  <div id="toast-message-share" class="toast-message-share">
+    링크가 복사되었습니다
   </div>
 </section>
 <br><br><br><br>
@@ -728,13 +733,33 @@
       }
     });
   });
+  document.querySelectorAll('.share-button').forEach(button => {
+    button.addEventListener('click', async () => {
+      // const accountNumber = button.getAttribute('data-account');
+      const accountNumber = "https://jawon222.github.io/wedding/"
+      try {
+        await navigator.clipboard.writeText(accountNumber);
+        
+        // 토스트 메시지 표시
+        const toast = document.getElementById('toast-message-share');
+        toast.classList.add('show');
+        
+        // 3초 후 토스트 메시지 숨김
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      } catch (err) {
+        alert('계좌번호 복사에 실패했습니다.');
+      }
+    });
+  });
 
   // 감사 메시지 배열
   const thankYouMessages = [
     "감사합니다 💕",
     "사랑해요 ❤️",
     "고마워요 💝",
-    "축하해요 💖",
+    "환영해요 💖",
     "행복해요 💗",
     "응원해요 💓",
     "축하 감사합니다 💘",

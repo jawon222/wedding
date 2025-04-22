@@ -228,3 +228,19 @@ document.querySelectorAll('.accordion-btn').forEach(button => {
   });
 });
 
+// 공유하기 링크 복사 함수
+function copyShareLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    // 토스트 메시지 표시
+    const toast = document.getElementById('share-toast-message');
+    toast.classList.add('show');
+    
+    // 3초 후 토스트 메시지 숨김
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }).catch(() => {
+    alert('링크 복사에 실패했습니다.');
+  });
+}
+

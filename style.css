@@ -331,9 +331,34 @@ audio {
   z-index: 1000;
   opacity: 0;
   pointer-events: none;
+  white-space: nowrap;
 }
 
 .toast-message.show {
+  bottom: 20px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 토스트 메시지 스타일 */
+.toast-message-share {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  transition: bottom 0.3s ease;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.toast-message-share.show {
   bottom: 20px;
   opacity: 1;
   pointer-events: auto;
@@ -683,7 +708,7 @@ main {
   width: 100%;
   margin: 0 auto;
   padding: 20px 0;
-  font-family: 'ChosunNm', 'Nanum Myeongjo', ...;
+  font-family: 'ChosunNm', 'Nanum Myeongjo';
   font-size: 2em;
   color: #333333;
   font-weight: normal; /* ✅ 요거 추가 */
