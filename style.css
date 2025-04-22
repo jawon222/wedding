@@ -381,15 +381,15 @@ audio {
 }
 
 /* 각 섹션별 딜레이 추가 */
-.fade-in-section:nth-child(2) { transition-delay: 0.2s; }
-.fade-in-section:nth-child(3) { transition-delay: 0.3s; }
-.fade-in-section:nth-child(4) { transition-delay: 0.4s; }
-.fade-in-section:nth-child(5) { transition-delay: 0.5s; }
+.fade-in-section:nth-child(2) { transition-delay: 0.3s; }
+.fade-in-section:nth-child(3) { transition-delay: 0.4s; }
+.fade-in-section:nth-child(4) { transition-delay: 0.5s; }
+.fade-in-section:nth-child(5) { transition-delay: 0.6s; }
 
 /* 커버 이미지 전용: 페이드 인 */
 .cover-img {
   opacity: 0;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .cover-img.visible {
