@@ -244,3 +244,165 @@ function copyShareLink() {
   });
 }
 
+// 선택된 파일들을 저장할 배열
+let selectedFiles = [];
+
+// 파일 선택 이벤트 리스너
+document.getElementById('photoInput').addEventListener('change', function(e) {
+  const files = Array.from(e.target.files);
+  
+  // 파일 추가
+   selectedFiles = Array.from(e.target.files); 
+
+  
+  // 미리보기 업데이트
+  updatePreview();
+  
+  // 선택된 파일 수 표시
+  updateSelectedCount();
+  
+  // 업로드 액션 버튼 표시
+  document.querySelector('.upload-actions').style.display = 'flex';
+});
+
+// 선택된 파일 수 업데이트
+function updateSelectedCount() {
+  const countElement = document.getElementById('selectedCount');
+  countElement.textContent = `선택된 파일: ${selectedFiles.length}개`;
+}
+
+// 미리보기 업데이트
+function updatePreview() {
+  const container = document.getElementById('previewContainer');
+  container.innerHTML = '';
+  if (!container) return;  // 혹시라도 없는 경우 방어
+  
+  selectedFiles.forEach((file, index) => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const div = document.createElement('div');
+      div.className = 'preview-item';
+      div.innerHTML = `
+        <img src="${e.target.result}" alt="Preview">
+        <button class="delete-button" onclick="deletePhoto(${index})">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      container.appendChild(div);
+    }
+    reader.readAsDataURL(file);
+  });
+}
+
+// 개별 사진 삭제
+function deletePhoto(index) {
+  selectedFiles.splice(index, 1);
+  updatePreview();
+  updateSelectedCount();
+  
+  if (selectedFiles.length === 0) {
+    document.querySelector('.upload-actions').style.display = 'none';
+  }
+}
+
+// 전체 사진 삭제
+function clearPhotos() {
+  selectedFiles = [];
+  updatePreview();
+  updateSelectedCount();
+  document.querySelector('.upload-actions').style.display = 'none';
+}
+
+// 구글 드라이브 업로드
+async function uploadPhotos() {
+  if (selectedFiles.length === 0) {
+    showToast('선택된 사진이 없습니다.', false);
+    return;
+  }
+
+  // 업로드 진행 상태 표시
+  const progressDiv = document.createElement('div');
+  progressDiv.className = 'upload-progress';
+  progressDiv.innerHTML = `
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>사진을 업로드하는 중입니다...</p>
+    <p><span id="uploadProgress">0</span>/${selectedFiles.length}장 완료</p>
+  `;
+  document.body.appendChild(progressDiv);
+
+  try {
+    let successCount = 0;
+    const uploadEndpoint = 'https://wedding-akmyonrender.com/upload';
+
+    for (const file of selectedFiles) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch(uploadEndpoint, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        successCount++;
+        document.getElementById('uploadProgress').textContent = successCount;
+      } else {
+        throw new Error('업로드 실패');
+      }
+    }
+
+    showToast(`${successCount}장의 사진이 성공적으로 업로드되었습니다.`);
+    clearPhotos();
+  } catch (error) {
+    showToast('사진 업로드에 실패했습니다.', false);
+    console.error('Upload error:', error);
+  } finally {
+    progressDiv.remove();
+  }
+}
+
+// 토스트 메시지 표시
+function showToast(message, isSuccess = true) {
+  const toast = document.getElementById('upload-toast');
+  const toastMessage = document.getElementById('upload-toast-message');
+  
+  toastMessage.textContent = message;
+  toast.style.backgroundColor = isSuccess ? 'rgba(0, 0, 0, 0.8)' : '#ff4444';
+  toast.classList.add('show');
+  
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+
+// 드래그 앤 드롭 기능 추가
+const uploadBox = document.querySelector('.upload-box');
+
+uploadBox.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  uploadBox.style.borderColor = '#EC746F';
+});
+
+uploadBox.addEventListener('dragleave', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  uploadBox.style.borderColor = '#ddd';
+});
+
+uploadBox.addEventListener('drop', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  uploadBox.style.borderColor = '#ddd';
+  
+  const files = Array.from(e.dataTransfer.files).filter(file => validateFile(file));
+  
+  if (files.length === 0) {
+    return;
+  }
+  
+  selectedFiles = [...selectedFiles, ...files];
+  updatePreview();
+  document.querySelector('.upload-actions').style.display = 'flex';
+});
+
