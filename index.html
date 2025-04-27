@@ -667,27 +667,30 @@
 <br><br><br><br>
 <!-- 사진 업로드 섹션 -->
 <section class="page fade-in-section" id="photo-upload">
-  <h2>결혼식 사진 올리기</h2><br>
+  <h2>결혼식 사진 전송하기</h2>
+  <p class="upload-description">결혼식에서 촬영한 사진을 신랑, 신부에게 전달해 보세요.</p>
+  
   <div class="upload-container">
     <div class="upload-box">
       <input type="file" id="photoInput" multiple accept="image/*" style="display: none;">
       <button class="upload-button" onclick="document.getElementById('photoInput').click()">
-        <i class="fas fa-camera"></i>
+        <i class="fas fa-images"></i>
         <span>사진 선택하기</span>
+        <small class="upload-hint">(최대 10장, 각 10MB)</small>
       </button>
-      <p id="selectedCount" class="selected-count"></p>
+      <p class="selected-count" id="selectedCount"></p>
     </div>
     
     <div id="previewContainer" class="preview-container"></div>
     
-    <div id="uploadActions" class="upload-actions" style="display: none;">
+    <div id="uploadActions" class="upload-actions">
       <button class="clear-button" onclick="clearPhotos()">
         <i class="fas fa-trash"></i>
         <span>전체 삭제</span>
       </button>
       <button class="submit-button" onclick="uploadPhotos()">
-        <i class="fas fa-cloud-upload-alt"></i>
-        <span>모두 업로드하기</span>
+        <i class="fas fa-paper-plane"></i>
+        <span>사진 전송하기</span>
       </button>
     </div>
   </div>
@@ -933,99 +936,143 @@
 
 <!-- 스크립트 추가 -->
 <script>
-// 전역 변수로 선택된 파일들을 저장
+// 사진 업로드 관련 변수들
 let selectedFiles = [];
+const maxFileSize = 10 * 1024 * 1024; // 10MB
+const maxTotalFiles = 10;
 
-// 파일 선택 이벤트 리스너 등록
-document.getElementById('photoInput').addEventListener('change', handleFileSelect);
-
-// 파일 선택 처리 함수
-function handleFileSelect(event) {
-    const files = Array.from(event.target.files);
-    selectedFiles = [...files];
+// 파일 선택 처리
+document.getElementById('photoInput').addEventListener('change', function(e) {
+    const files = Array.from(e.target.files);
     
-    // 선택된 파일 수 표시
-    const countElement = document.getElementById('selectedCount');
-    countElement.textContent = `선택된 사진: ${files.length}장`;
-    countElement.style.display = 'block';
-    
-    // 미리보기 표시
-    const previewContainer = document.getElementById('previewContainer');
-    previewContainer.innerHTML = ''; // 기존 미리보기 초기화
-    
-    files.forEach((file, index) => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const previewItem = document.createElement('div');
-            previewItem.className = 'preview-item';
-            previewItem.innerHTML = `
-                <img src="${e.target.result}" alt="Preview">
-                <button class="delete-button" onclick="deletePhoto(${index})">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            previewContainer.appendChild(previewItem);
-        };
-        reader.readAsDataURL(file);
-    });
-    
-    // 업로드/삭제 버튼 표시
-    document.getElementById('uploadActions').style.display = 'flex';
-}
-
-// 개별 사진 삭제
-function deletePhoto(index) {
-    selectedFiles.splice(index, 1);
-    const countElement = document.getElementById('selectedCount');
-    countElement.textContent = `선택된 사진: ${selectedFiles.length}장`;
-    
-    if (selectedFiles.length === 0) {
-        countElement.style.display = 'none';
-        document.getElementById('uploadActions').style.display = 'none';
+    // 파일 개수 체크
+    if (selectedFiles.length + files.length > maxTotalFiles) {
+        alert(`최대 ${maxTotalFiles}장까지만 선택 가능합니다.`);
+        return;
     }
     
-    // 미리보기 다시 생성
-    const previewContainer = document.getElementById('previewContainer');
-    previewContainer.innerHTML = '';
+    // 파일 크기와 타입 체크
+    const validFiles = files.filter(file => {
+        if (file.size > maxFileSize) {
+            alert(`${file.name}의 크기가 10MB를 초과합니다.`);
+            return false;
+        }
+        if (!file.type.startsWith('image/')) {
+            alert(`${file.name}은 이미지 파일이 아닙니다.`);
+            return false;
+        }
+        return true;
+    });
     
-    selectedFiles.forEach((file, idx) => {
+    selectedFiles = [...selectedFiles, ...validFiles];
+    updatePreview();
+    updateSelectedCount();
+    
+    // 업로드 액션 버튼 표시
+    document.getElementById('uploadActions').style.display = 
+        selectedFiles.length > 0 ? 'flex' : 'none';
+});
+
+// 미리보기 업데이트
+function updatePreview() {
+    const container = document.getElementById('previewContainer');
+    container.innerHTML = '';
+    
+    selectedFiles.forEach((file, index) => {
         const reader = new FileReader();
         reader.onload = function(e) {
             const previewItem = document.createElement('div');
             previewItem.className = 'preview-item';
-            previewItem.innerHTML = `
-                <img src="${e.target.result}" alt="Preview">
-                <button class="delete-button" onclick="deletePhoto(${idx})">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            previewContainer.appendChild(previewItem);
+            
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = file.name;
+            
+            const removeButton = document.createElement('button');
+            removeButton.className = 'remove-preview';
+            removeButton.innerHTML = '×';
+            removeButton.onclick = (e) => {
+                e.preventDefault();
+                removeFile(index);
+            };
+            
+            previewItem.appendChild(img);
+            previewItem.appendChild(removeButton);
+            container.appendChild(previewItem);
         };
         reader.readAsDataURL(file);
     });
 }
 
-// 전체 사진 삭제
+// 선택된 파일 개수 업데이트
+function updateSelectedCount() {
+    const countElement = document.getElementById('selectedCount');
+    countElement.textContent = 
+        selectedFiles.length > 0 ? 
+        `${selectedFiles.length}장의 사진이 선택됨` : '';
+}
+
+// 파일 제거
+function removeFile(index) {
+    selectedFiles.splice(index, 1);
+    updatePreview();
+    updateSelectedCount();
+    
+    // 업로드 액션 버튼 표시/숨김
+    document.getElementById('uploadActions').style.display = 
+        selectedFiles.length > 0 ? 'flex' : 'none';
+}
+
+// 전체 삭제
 function clearPhotos() {
     selectedFiles = [];
-    document.getElementById('previewContainer').innerHTML = '';
-    document.getElementById('selectedCount').style.display = 'none';
+    updatePreview();
+    updateSelectedCount();
     document.getElementById('uploadActions').style.display = 'none';
 }
 
 // 사진 업로드
 async function uploadPhotos() {
-    if (selectedFiles.length === 0) {
-        alert('선택된 사진이 없습니다.');
+    const fileInput = document.querySelector('input[type="file"]');
+    if (!fileInput.files.length) {
+        alert('업로드할 사진을 선택해주세요.');
         return;
     }
-    
+
+    const uploadButton = document.querySelector('.submit-button');
+    uploadButton.disabled = true;
+    uploadButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 업로드 중...';
+
     try {
-        // 여기에 실제 업로드 로직 구현
-        alert('업로드 기능 준비 중입니다.');
+        const formData = new FormData();
+        
+        // 여러 파일을 'photos' 필드로 추가
+        Array.from(fileInput.files).forEach(file => {
+            formData.append('photos', file);
+        });
+
+        const response = await fetch('https://wedding-akmy.onrender.com/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (data.success) {
+            alert('사진이 성공적으로 업로드되었습니다!');
+            fileInput.value = ''; // 파일 선택 초기화
+        } else {
+            throw new Error(data.error || '업로드 실패');
+        }
     } catch (error) {
         console.error('Upload error:', error);
-        alert('업로드에 실패했습니다.');
+        alert('사진 업로드 중 오류가 발생했습니다: ' + error.message);
+    } finally {
+        uploadButton.disabled = false;
+        uploadButton.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> 사진 전송하기';
     }
 }
 </script>
