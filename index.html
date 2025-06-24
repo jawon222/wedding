@@ -251,12 +251,20 @@
       const coverSection = document.getElementById('cover');
       if (!coverSection) return;
 
-      const heartCount = 10;
+      const heartCount = 5;
       const colors = [
-        { color1: '#ff6b6b', color2: '#ff8e8e' },
-        { color1: '#ff8e8e', color2: '#ffb6b6' },
-        { color1: '#ffb6b6', color2: '#ffd1d1' },
-        { color1: '#ffd1d1', color2: '#ffe0e0' }
+        { color1: '#e8b4cb', color2: '#f4c2d7' }, // 로즈 핑크 그라데이션
+        { color1: '##F6AAAB', color2: '#e8c1c1' }, // 살구색 그라데이션
+        { color1: '#c8a2c8', color2: '#d4b5d4' }, // 라벤더 그라데이션
+        { color1: '#f0c3a0', color2: '#f7d4b8' }, // 피치 그라데이션
+        { color1: '#e6c3c3', color2: '#f0d1d1' }, // 블러쉬 핑크 그라데이션
+        { color1: '#d4c4e8', color2: '#e2d4f0' }, // 소프트 퍼플 그라데이션
+        { color1: '#ffb6c1', color2: '#ffc0cb' }, // 라이트 핑크 그라데이션
+        { color1: '#FFB9FF', color2: '#CFB9FF' }, // 플럼 그라데이션
+        { color1: '#90C4DE', color2: '#A8D4E8' }, // 라이트 스틸 블루 그라데이션
+        { color1: '#e6e6fa', color2: '#f0f0ff' }, // 라벤더 블루 그라데이션
+        { color1: '#FF9AB4', color2: '##FF7790' }, // 핑크 그라데이션
+        { color1: '##7887DB', color2: '#a78be8' }  // 미디엄 퍼플 그라데이션
       ];
 
       for (let i = 0; i < heartCount; i++) {
@@ -266,7 +274,7 @@
           const heart = document.createElement('div');
           heart.className = 'heart';
           
-          const size = Math.random() * 10 + 5;
+          const size = Math.random() * 12 + 8;
           const color = colors[Math.floor(Math.random() * colors.length)];
           const coverRect = coverSection.getBoundingClientRect();
           const startX = coverRect.left + Math.random() * coverRect.width;
@@ -745,7 +753,19 @@
       // 골드 계열
       '#ffd700', '#ffdf00', '#ffec00', '#fff200',
       // 화이트 계열
-      '#fff0f5', '#ffe4e1', '#fff5ee', '#faf0e6'
+      '#fff0f5', '#ffe4e1', '#fff5ee', '#faf0e6',
+      // 라이트 핑크 그라데이션
+      '#ffb6c1', '#ffc0cb',
+      // 플럼 그라데이션
+      '#dda0dd', '#e6b3e6',
+      // 라이트 스틸 블루 그라데이션
+      '#b0c4de', '#c8d4e8',
+      // 라벤더 블루 그라데이션
+      '#e6e6fa', '#f0f0ff',
+      // 핫 핑크 그라데이션
+      '#ff69b4', '#ff8da1',
+      // 미디엄 퍼플 그라데이션
+      '#9370db', '#a78be8'
     ];
     
     // 중앙에서 터지는 하트
